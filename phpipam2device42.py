@@ -223,7 +223,7 @@ class DB:
                 logger.debugger(msg)
         for line in db_devs:
             dev = {}
-            name, dev_type, vendor, model, dev_type_name = line
+            name, dev_type_id, vendor, model, dev_type_name = line
 
             dev.update({'name': name})
             dev.update({'manufacturer': vendor})
@@ -363,7 +363,7 @@ class DB:
 
         for line in ips:
             address = {}
-            ip_raw, label, mac, lastSeen, subnet, vrf, device, ip_type = line
+            ip_raw, label, mac, last_seen, subnet, vrf, device, ip_type = line
             subnet = self.convert_ip(int(subnet))
             ip = self.convert_ip(int(ip_raw))
 
@@ -372,7 +372,7 @@ class DB:
             address.update({'label': label})
             address.update({'subnet': subnet})
 
-            if lastSeen is not None:
+            if last_seen is not None:
                 address.update({'available': 'yes'})
             else:
                 address.update({'available': 'no'})
