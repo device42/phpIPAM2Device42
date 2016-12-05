@@ -359,8 +359,6 @@ class DB:
 
             if last_seen is not None:
                 address.update({'available': 'yes'})
-            else:
-                address.update({'available': 'no'})
 
             if device is not None:
                 address.update({'device': device})
