@@ -217,7 +217,7 @@ class DB:
             dev.update({'manufacturer': vendor})
             dev.update({'hardware': model})
 
-            if dev_type_name.lower() in dev_types:
+            if dev_type_name is not None and dev_type_name.lower() in dev_types:
                 dev.update({'type': dev_type_name.lower()})
 
             rest.post_device(dev)
