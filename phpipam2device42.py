@@ -206,7 +206,8 @@ class DB:
         with self.con:
             cur = self.con.cursor()
             q = '''
-                SELECT devices.hostname, devices.type, devices.vendor, devices.model, deviceTypes.tname
+                SELECT devices.hostname, devices.ip_addr, devices.description,
+                       devices.type, devices.vendor, devices.model, deviceTypes.tname
                 FROM devices LEFT JOIN deviceTypes ON devices.type = deviceTypes.tid
                 '''
             cur.execute(q)
@@ -217,16 +218,26 @@ class DB:
 
         for line in db_devs:
             dev = {}
-            name, dev_type_id, vendor, model, dev_type_name = line
+            ip = {}
+            dev_name, dev_ip, dev_description, dev_type_id, dev_vendor, dev_model, dev_type_name = line
 
-            dev.update({'name': name})
-            dev.update({'manufacturer': vendor})
-            dev.update({'hardware': model})
+            dev.update({'name': dev_name})
+            dev.update({'manufacturer': dev_vendor})
+            dev.update({'hardware': dev_model})
 
             if dev_type_name is not None and dev_type_name.lower() in dev_types:
                 dev.update({'type': dev_type_name.lower()})
 
             rest.post_device(dev)
+
+            # send additional ip
+            ip.update({'ipaddress': dev_ip})
+            ip.update({'device': dev_name})
+
+            if dev_description is not None:
+                ip.update({'label': dev_description})
+
+            rest.post_ip(ip)
 
     def integrate_vrfs(self):
         """
