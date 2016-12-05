@@ -19,7 +19,8 @@ This repository contains sample script to take Inventory information from a PHPI
 ### Usage
 -----------------------------
 
-    * add D42 URL/credentials
+    * rename conf.py.sample to conf.py
+    * in conf.py add D42 URL/credentials
 ```
 # ====== Device42 upload settings ========= #
 D42_USER    = 'device42 user'
@@ -27,7 +28,7 @@ D42_PWD     = 'device42 password'
 D42_URL     = 'https:// device42 server IP address'
 ```
 
-    * add PHPIPAM DB info/credentials
+    * in conf.py add PHPIPAM DB info/credentials
 ```
 # ====== MySQL Source (PHPIPAM) ====== #
 DB_IP       = 'phpipam server IP'
@@ -36,7 +37,7 @@ DB_NAME     = 'phpipam database name'
 DB_USER     = 'phpipam database user'
 DB_PWD      = 'phpipam database password'
 ```
-	* adjust log settings
+	* in conf.py adjust log settings
 ```
 # ====== Log settings ==================== #
 LOGFILE     = 'migration.log'
@@ -46,7 +47,7 @@ DEBUG_LOG   = 'debug.log'
 ```
 
 
-Run the script and enjoy! (```python phpipam2device42.py```)
+Run the script and enjoy! (`python phpipam2device42.py`)
 If you have any questions - feel free to reach out to us at support at device42.com
 
 

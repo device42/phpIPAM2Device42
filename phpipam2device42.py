@@ -25,27 +25,12 @@ import base64
 import netaddr
 import requests
 import pymysql as sql
+from conf import *
 
 try:
     requests.packages.urllib3.disable_warnings()
 except:
     pass
-
-# ====== MySQL Source (phpipam) ====== #
-DB_IP = 'phpipam-mysql'
-DB_PORT = '3306'
-DB_NAME = 'phpipam'
-DB_USER = 'root'
-DB_PWD = 'my-secret-pw'
-# ====== Log settings ==================== #
-LOGFILE = 'migration.log'
-STDOUT = False  # print to STDOUT
-DEBUG = True  # write debug log
-DEBUG_LOG = 'debug.log'
-# ====== Device42 upload settings ========= #
-D42_USER = 'admin'
-D42_PWD = 'adm!nd42'
-D42_URL = 'https://158.69.157.16'
 
 
 class Logger:
