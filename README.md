@@ -59,8 +59,9 @@ If you have any questions - feel free to reach out to us at support at device42.
 
 ### Gotchas
 -----------------------------
-    * Device types could be : physical, virtual, blade, cluster, or other.
-    * IP types could be : static, dhcp or reserved.
+    * Understandable device types : 'physical', 'virtual', 'blade', 'cluster', or 'other'.
+    * Understandable IP types : 'static', 'dhcp' or' reserved'.
+    * If type not understandable, 'default' type inserted into D42.
     * Order of function calls in main() function is important. Do not change it!
       For example: subnets must be migrated before IP addresses in order for addresses to join appropriate subnets.
 
