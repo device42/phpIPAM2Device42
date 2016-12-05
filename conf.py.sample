@@ -1,15 +1,15 @@
+# ====== Device42 upload settings ========= #
+D42_USER = 'device42 user'
+D42_PWD = 'device42 password'
+D42_URL = 'https:// device42 server IP address'
 # ====== MySQL Source (phpipam) ====== #
-DB_IP = 'phpipam-mysql'
-DB_PORT = '3306'
-DB_NAME = 'phpipam'
-DB_USER = 'root'
-DB_PWD = 'my-secret-pw'
+DB_IP = 'phpipam server IP'
+DB_PORT = 'phpipam database port'
+DB_NAME = 'phpipam database name'
+DB_USER = 'phpipam database user'
+DB_PWD = 'phpipam database password'
 # ====== Log settings ==================== #
 LOGFILE = 'migration.log'
 STDOUT = False  # print to STDOUT
 DEBUG = True  # write debug log
 DEBUG_LOG = 'debug.log'
-# ====== Device42 upload settings ========= #
-D42_USER = 'admin'
-D42_PWD = 'admin'
-D42_URL = 'https://url'
