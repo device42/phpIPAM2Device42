@@ -19,13 +19,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import os
 import sys
+import imp
 import json
 import codecs
 import base64
 import netaddr
 import requests
 import pymysql as sql
-from conf import *
+
+conf = imp.load_source('conf', 'conf')
+
 
 dev_types = ['physical', 'virtual', 'blade', 'cluster', 'other']
 ip_types = ['static', 'dhcp', 'reserved']
@@ -55,12 +58,12 @@ class Logger:
                     break
             else:
                 break
-        if DEBUG and os.path.exists(DEBUG_LOG):
-            with open(DEBUG_LOG, 'w'):
+        if conf.DEBUG and os.path.exists(conf.DEBUG_LOG):
+            with open(conf.DEBUG_LOG, 'w'):
                 pass
 
     def writer(self, msg):
-        if LOGFILE and LOGFILE != '':
+        if conf.LOGFILE and conf.LOGFILE != '':
             with codecs.open(self.logfile, 'a', encoding='utf-8') as f:
                 msg = msg.decode('UTF-8', 'ignore')
                 f.write(msg + '\r\n')  # \r\n for notepad
@@ -72,8 +75,8 @@ class Logger:
 
     @staticmethod
     def debugger(msg):
-        if DEBUG_LOG and DEBUG_LOG != '':
-            with codecs.open(DEBUG_LOG, 'a', encoding='utf-8') as f:
+        if conf.DEBUG_LOG and conf.DEBUG_LOG != '':
+            with codecs.open(conf.DEBUG_LOG, 'a', encoding='utf-8') as f:
                 title, message = msg
                 row = '\n-----------------------------------------------------\n%s\n%s' % (title, message)
                 f.write(row + '\r\n\r\n')  # \r\n for notepad
@@ -82,9 +85,9 @@ class Logger:
 class REST:
 
     def __init__(self):
-        self.password = D42_PWD
-        self.username = D42_USER
-        self.base_url = D42_URL
+        self.password = conf.D42_PWD
+        self.username = conf.D42_USER
+        self.base_url = conf.D42_URL
 
     def uploader(self, data, url):
         payload = data
@@ -179,7 +182,8 @@ class DB:
         Connection to phpipam database
         :return:
         """
-        self.con = sql.connect(host=DB_IP, port=int(DB_PORT), db=DB_NAME, user=DB_USER, passwd=DB_PWD)
+        self.con = sql.connect(host=conf.DB_IP, port=int(conf.DB_PORT), db=conf.DB_NAME,
+                               user=conf.DB_USER, passwd=conf.DB_PWD)
 
     @staticmethod
     def convert_ip(ip_raw):
@@ -207,7 +211,7 @@ class DB:
                 '''
             cur.execute(q)
             db_devs = cur.fetchall()
-            if DEBUG:
+            if conf.DEBUG:
                 msg = ('Devices', str(db_devs))
                 logger.debugger(msg)
 
@@ -237,7 +241,7 @@ class DB:
             q = "SELECT vrf.name, vrf.description FROM vrf"
             cur.execute(q)
             db_vrfs = cur.fetchall()
-            if DEBUG:
+            if conf.DEBUG:
                 msg = ('VRFs', str(db_vrfs))
                 logger.debugger(msg)
 
@@ -263,7 +267,7 @@ class DB:
             q = "SELECT vlans.name, vlans.number, vlans.description FROM vlans"
             cur.execute(q)
             db_vlans = cur.fetchall()
-            if DEBUG:
+            if conf.DEBUG:
                 msg = ('VLANs', str(db_vlans))
                 logger.debugger(msg)
 
@@ -296,7 +300,7 @@ class DB:
                 '''
             cur.execute(q)
             subnets = cur.fetchall()
-            if DEBUG:
+            if conf.DEBUG:
                 msg = ('Subnets', str(subnets))
                 logger.debugger(msg)
 
@@ -343,7 +347,7 @@ class DB:
         """
         if not self.con:
             self.connect()
-            
+
         with self.con:
             cur = self.con.cursor()
             q = '''
@@ -356,7 +360,7 @@ class DB:
                 '''
             cur.execute(q)
             ips = cur.fetchall()
-            if DEBUG:
+            if conf.DEBUG:
                 msg = ('IPs', str(ips))
                 logger.debugger(msg)
 
@@ -397,7 +401,7 @@ def main():
     db.integrate_ips()
 
 if __name__ == '__main__':
-    logger = Logger(LOGFILE, STDOUT)
+    logger = Logger(conf.LOGFILE, conf.STDOUT)
     rest = REST()
     main()
     print '\n[!] Done!'

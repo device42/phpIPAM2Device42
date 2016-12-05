@@ -1,3 +1,5 @@
 debug.log
 migration.log
-conf.py
+conf
+confc
+.c
