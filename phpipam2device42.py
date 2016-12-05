@@ -198,6 +198,7 @@ class DB:
         """
         if not self.con:
             self.connect()
+
         with self.con:
             cur = self.con.cursor()
             q = '''
@@ -209,6 +210,7 @@ class DB:
             if DEBUG:
                 msg = ('Devices', str(db_devs))
                 logger.debugger(msg)
+
         for line in db_devs:
             dev = {}
             name, dev_type_id, vendor, model, dev_type_name = line
@@ -229,6 +231,7 @@ class DB:
         """
         if not self.con:
             self.connect()
+
         with self.con:
             cur = self.con.cursor()
             q = "SELECT vrf.name, vrf.description FROM vrf"
@@ -237,6 +240,7 @@ class DB:
             if DEBUG:
                 msg = ('VRFs', str(db_vrfs))
                 logger.debugger(msg)
+
         for line in db_vrfs:
             vrf = {}
             name, description = line
@@ -253,6 +257,7 @@ class DB:
         """
         if not self.con:
             self.connect()
+
         with self.con:
             cur = self.con.cursor()
             q = "SELECT vlans.name, vlans.number, vlans.description FROM vlans"
@@ -261,6 +266,7 @@ class DB:
             if DEBUG:
                 msg = ('VLANs', str(db_vlans))
                 logger.debugger(msg)
+
         for line in db_vlans:
             vlan = {}
             name, number, description = line
@@ -278,6 +284,7 @@ class DB:
         """
         if not self.con:
             self.connect()
+
         with self.con:
             cur = self.con.cursor()
             q = '''
@@ -296,6 +303,7 @@ class DB:
         rest_vrfs = json.loads(rest.get_vrfs())
         rest_vlans = json.loads(rest.get_vlans())
         rest_subnets = json.loads(rest.get_subnets())
+
         for line in subnets:
             sub = {}
             raw_subnet, mask, description, parent_vlan, parent_subnet, vrf, vlan_number = line
@@ -335,6 +343,7 @@ class DB:
         """
         if not self.con:
             self.connect()
+            
         with self.con:
             cur = self.con.cursor()
             q = '''
