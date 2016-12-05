@@ -27,6 +27,9 @@ import requests
 import pymysql as sql
 from conf import *
 
+dev_types = ['physical', 'virtual', 'blade', 'cluster', 'other']
+ip_types = ['static', 'dhcp', 'reserved']
+
 try:
     requests.packages.urllib3.disable_warnings()
 except:
@@ -213,7 +216,9 @@ class DB:
             dev.update({'name': name})
             dev.update({'manufacturer': vendor})
             dev.update({'hardware': model})
-            dev.update({'type': dev_type_name.lower()})
+
+            if dev_type_name.lower() in dev_types:
+                dev.update({'type': dev_type_name.lower()})
 
             rest.post_device(dev)
 
@@ -353,9 +358,11 @@ class DB:
             ip = self.convert_ip(int(ip_raw))
 
             address.update({'ipaddress': ip})
-            address.update({'type': ip_type.lower()})
             address.update({'label': label})
             address.update({'subnet': subnet})
+
+            if ip_type.lower() in ip_types:
+                address.update({'type': ip_type.lower()})
 
             if last_seen is not None:
                 address.update({'available': 'yes'})
