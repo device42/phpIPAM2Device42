@@ -124,7 +124,7 @@ class REST:
         url = self.base_url + '/api/1.0/vrf_group/'
         msg = '\r\nPosting data to %s ' % url
         logger.writer(msg)
-        self.uploader(data, url)
+        return self.uploader(data, url)
 
     def get_vrfs(self):
         url = self.base_url + '/api/1.0/vrf_group/'
@@ -176,6 +176,7 @@ class DB:
 
     def __init__(self):
         self.con = None
+        self.default_vrf_group = conf.DEFAULT_VRF_GROUP
 
     def connect(self):
         """
@@ -265,6 +266,12 @@ class DB:
 
             rest.post_vrf(vrf)
 
+        vrf = {}
+        vrf.update({'name': self.default_vrf_group})
+        vrf.update({'description': 'default_vrf'})
+        res = rest.post_vrf(vrf)
+        self.default_vrf_group_id = res['msg'][1]
+
     def integrate_vlans(self):
         """
         Fetch vlans from phpipam and send them to upload function
@@ -334,6 +341,8 @@ class DB:
                     if rest_vrf['name'] == vrf:
                         sub.update({'vrf_group_id': rest_vrf['id']})
                         break
+            else:
+                sub.update({'vrf_group_id': self.default_vrf_group_id})
 
             if parent_subnet is not 0:
                 # assign parent subnet
@@ -417,5 +426,3 @@ if __name__ == '__main__':
     main()
     print '\n[!] Done!'
     sys.exit()
-
-

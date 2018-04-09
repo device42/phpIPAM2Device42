@@ -13,3 +13,4 @@ LOGFILE = 'migration.log'
 STDOUT = False  # print to STDOUT
 DEBUG = True  # write debug log
 DEBUG_LOG = 'debug.log'
+DEFAULT_VRF_GROUP = 'vrf0'
